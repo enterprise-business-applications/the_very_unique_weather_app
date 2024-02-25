@@ -1,5 +1,5 @@
 # The Very Unique Weather App ;)
-
+![build status](https://github.com/praisetompane/the_very_unique_weather_app/actions/workflows/the_very_unique_weather_app_merge.yml/badge.svg) <br>
 A toy simple weather application to experiment with the full life-cycle of a React Single Page Application.
 
 ### Application Tour

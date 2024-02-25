@@ -1,13 +1,15 @@
-name: Deploy Release to Firebase Hosting on merge
-'on':
-  push:
-    branches:
-      - main
+name: the_very_unique_weather_app_pull_request
+'on': pull_request
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
 jobs:
-  build_and_deploy:
+  build_and_preview:
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v3
         name: setup pnpm and install dependencies
         with:
@@ -16,12 +18,14 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]
+      - name: test
+        run: echo "no running for now"
       - name: build
         run: pnpm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
-        name: deploy to Firebase production
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_THE_VERY_UNIQUE_WEATHER_APP }}'
-          channelId: live
           projectId: the-very-unique-weather-app
+
+
